@@ -77,6 +77,7 @@ public class Anagrams extends JFrame {
 
     private int wordIdx = 0;
     private WordLibrary wordLibrary;
+    private int level = 0;
 
     /** Creates new form Anagrams */
     public Anagrams() {
@@ -198,13 +199,7 @@ public class Anagrams extends JFrame {
         });
         buttonsPanel.add(nextTrial, new java.awt.GridBagConstraints());
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        mainPanel.add(buttonsPanel, gridBagConstraints);
+        mainPanel.add(buttonsPanel, new java.awt.GridBagConstraints());
 
         levelLabel.setText("レベル:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -213,6 +208,11 @@ public class Anagrams extends JFrame {
         mainPanel.add(levelLabel, gridBagConstraints);
 
         selectLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Level 1", "Level 2", "Level 3" }));
+        selectLevel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectLevelActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -257,7 +257,11 @@ public class Anagrams extends JFrame {
         wordIdx = (wordIdx + 1) % wordLibrary.getSize();
 
         feedbackLabel.setText(" ");
+        for(int i=0;i<level;i++) {
+           wordLibrary.getScrambledWord(wordIdx); 
+        }
         scrambledWord.setText(wordLibrary.getScrambledWord(wordIdx));
+        //System.out.println(level);
         guessedWord.setText("");
         getRootPane().setDefaultButton(guessButton);
 
@@ -283,6 +287,17 @@ public class Anagrams extends JFrame {
     private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
         System.exit(0);
     }//GEN-LAST:event_exitForm
+
+    private void selectLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectLevelActionPerformed
+        // TODO add your handling code here:
+       int selectedLevel = 0;
+       selectedLevel = selectLevel.getSelectedIndex();
+       switch (selectedLevel) {
+           case 0: level = 1; break;
+           case 1: level = 2; break;
+           case 2: level = 3; break;    
+       }
+    }//GEN-LAST:event_selectLevelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
